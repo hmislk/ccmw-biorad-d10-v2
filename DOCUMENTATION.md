@@ -124,9 +124,9 @@ blank). Set `"sendReportHeader": false` to skip this entire section.
 
 ### 3.4 Chromatogram chart - coding system `D10-IMG` (config: `chromatogramObservationCodeSystem`)
 
-| Code | Value |
-|---|---|
-| `D10-CHROMATOGRAM` (config: `chromatogramObservationCode`) | `^Image^PNG^Base64^<base64 PNG bytes>` |
+| Code | Full code | Value |
+|---|---|---|
+| `D10-CHROMATOGRAM` (config: `chromatogramObservationCode`) | `D10-IMG^D10-CHROMATOGRAM` | `^Image^PNG^Base64^<base64 PNG bytes>` |
 
 The peak table, header metadata and chromatogram all come from the *same*
 per-sample PDF (`?page=pdf&test=HBA1C&nbfile=1&f0=...`) - one download, two
