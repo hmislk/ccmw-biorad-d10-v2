@@ -2,6 +2,7 @@ package com.carecode.biorad.d10.processing;
 
 import com.carecode.biorad.d10.analyzer.AnalyzerClient;
 import com.carecode.biorad.d10.analyzer.PatientReportParser;
+import com.carecode.biorad.d10.analyzer.SampleIdParser;
 import com.carecode.biorad.d10.config.AppConfig;
 import com.carecode.biorad.d10.lims.LimsClient;
 import com.carecode.biorad.d10.lims.ResultsAuditLog;
@@ -72,6 +73,10 @@ public class SampleProcessor {
         Set<String> seenThisRun = new LinkedHashSet<>();
         for (String sampleId : sampleIds) {
             if (!seenThisRun.add(sampleId)) {
+                continue;
+            }
+            if (SampleIdParser.isNonPatientSample(sampleId)) {
+                log.debug("Sample {} is not a patient specimen (rack check/calibration), skipping", sampleId);
                 continue;
             }
             if (alreadySent.contains(sampleId)) {
