@@ -15,14 +15,16 @@ public class PatientReportData {
     private final Double concentrationA1cPercent;
     private final List<PeakResult> peaks;
     private final byte[] chromatogramPng;
+    private final ReportHeader reportHeader;
 
     public PatientReportData(String sampleId, Long totalArea, Double concentrationA1cPercent,
-                              List<PeakResult> peaks, byte[] chromatogramPng) {
+                              List<PeakResult> peaks, byte[] chromatogramPng, ReportHeader reportHeader) {
         this.sampleId = sampleId;
         this.totalArea = totalArea;
         this.concentrationA1cPercent = concentrationA1cPercent;
         this.peaks = peaks == null ? Collections.emptyList() : peaks;
         this.chromatogramPng = chromatogramPng;
+        this.reportHeader = reportHeader;
     }
 
     public String getSampleId() {
@@ -43,6 +45,10 @@ public class PatientReportData {
 
     public byte[] getChromatogramPng() {
         return chromatogramPng;
+    }
+
+    public ReportHeader getReportHeader() {
+        return reportHeader;
     }
 
     /**

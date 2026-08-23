@@ -1,6 +1,7 @@
 package com.carecode.biorad.d10.analyzer;
 
 import com.carecode.biorad.d10.model.PatientReportData;
+import com.carecode.biorad.d10.model.ReportHeader;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -45,9 +46,10 @@ public class PatientReportParser {
         }
 
         PeakTableTextParser.Result parsed = PeakTableTextParser.parse(text);
+        ReportHeader header = ReportHeaderTextParser.parse(text);
 
         return new PatientReportData(sampleId, parsed.totalArea, parsed.concentrationA1cPercent,
-                parsed.peaks, chromatogramPng);
+                parsed.peaks, chromatogramPng, header);
     }
 
     private byte[] extractChromatogramPng(PDPage page) throws Exception {
