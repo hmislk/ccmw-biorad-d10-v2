@@ -7,6 +7,7 @@ import com.carecode.biorad.d10.lims.LimsClient;
 import com.carecode.biorad.d10.lims.ResultsAuditLog;
 import com.carecode.biorad.d10.model.PatientReportData;
 import com.carecode.biorad.d10.model.PeakResult;
+import com.carecode.biorad.d10.model.ReportHeader;
 import com.carecode.biorad.d10.tracking.ProcessedSamplesStore;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -104,6 +105,10 @@ public class SampleProcessor {
             sendPeakTable(sampleId, data, issuedDate);
         }
 
+        if (config.sendReportHeader) {
+            sendReportHeader(sampleId, data, issuedDate);
+        }
+
         sendChromatogram(sampleId, data, issuedDate);
 
         if (primarySent) {
@@ -157,6 +162,34 @@ public class SampleProcessor {
         boolean sent = limsClient.send(obs);
         if (sent) {
             auditLog.recordSent(sampleId, codingSystem + ":" + code, String.valueOf(value));
+        }
+    }
+
+    private void sendReportHeader(String sampleId, PatientReportData data, String issuedDate) {
+        ReportHeader header = data.getReportHeader();
+        if (header == null || header.isEmpty()) {
+            return;
+        }
+        String codingSystem = config.headerObservationCodingSystem;
+
+        sendHeaderField(sampleId, codingSystem, "INJECTION_DATE", header.getInjectionDateTime(), issuedDate);
+        sendHeaderField(sampleId, codingSystem, "INJECTION_NUMBER", header.getInjectionNumber(), issuedDate);
+        sendHeaderField(sampleId, codingSystem, "RACK_NUMBER", header.getRackNumber(), issuedDate);
+        sendHeaderField(sampleId, codingSystem, "RACK_POSITION", header.getRackPosition(), issuedDate);
+        sendHeaderField(sampleId, codingSystem, "METHOD", header.getMethod(), issuedDate);
+        sendHeaderField(sampleId, codingSystem, "SERIAL_NUMBER", header.getInstrumentSerialNumber(), issuedDate);
+        sendHeaderField(sampleId, codingSystem, "SOFTWARE_VERSION", header.getSoftwareVersion(), issuedDate);
+    }
+
+    private void sendHeaderField(String sampleId, String codingSystem, String code, String value, String issuedDate) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+        JSONObject obs = limsClient.buildObservationJson(sampleId, value,
+                codingSystem, code, "", "", issuedDate);
+        boolean sent = limsClient.send(obs);
+        if (sent) {
+            auditLog.recordSent(sampleId, codingSystem + ":" + code, value);
         }
     }
 
