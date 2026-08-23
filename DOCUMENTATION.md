@@ -73,18 +73,35 @@ sample, the following are sent:
 
 ### 3.2 Full peak table - coding system `D10-PEAK` (config: `peakObservationCodingSystem`)
 
-One row per peak actually present on the report, from this vocabulary:
+One row per peak actually present on the report, from this vocabulary (`PeakTableTextParser.KNOWN_PEAK_NAMES`):
 `LA1c/CHb-1`, `A1a`, `A1b`, `A1c`, `A0`, `P1`, `P2`, `P3`, `P4`, `P5`, `F`,
 `E`, `D`, `S`, `C`, `Variant`, `Unknown`.
 
-For each peak, up to 4 observations:
+For each peak, up to 4 component observations - `<Peak>^TIME` (`min`),
+`<Peak>^HEIGHT` (`counts`), `<Peak>^AREA` (`counts`), `<Peak>^AREAPCT` (`%`).
+Only the peaks that actually appear on a given sample's printout are sent;
+the table below is the full possible vocabulary (17 peaks x 4 components =
+68 codes), plus one totals code.
 
-| Code | Value | Unit |
-|---|---|---|
-| `<Peak>^TIME` | retention time | `min` |
-| `<Peak>^HEIGHT` | peak height | `counts` |
-| `<Peak>^AREA` | raw area | `counts` |
-| `<Peak>^AREAPCT` | area % | `%` |
+| Peak | TIME | HEIGHT | AREA | AREAPCT |
+|---|---|---|---|---|
+| LA1c/CHb-1 | `LA1c/CHb-1^TIME` | `LA1c/CHb-1^HEIGHT` | `LA1c/CHb-1^AREA` | `LA1c/CHb-1^AREAPCT` |
+| A1a | `A1a^TIME` | `A1a^HEIGHT` | `A1a^AREA` | `A1a^AREAPCT` |
+| A1b | `A1b^TIME` | `A1b^HEIGHT` | `A1b^AREA` | `A1b^AREAPCT` |
+| A1c | `A1c^TIME` | `A1c^HEIGHT` | `A1c^AREA` | `A1c^AREAPCT` |
+| A0 | `A0^TIME` | `A0^HEIGHT` | `A0^AREA` | `A0^AREAPCT` |
+| P1 | `P1^TIME` | `P1^HEIGHT` | `P1^AREA` | `P1^AREAPCT` |
+| P2 | `P2^TIME` | `P2^HEIGHT` | `P2^AREA` | `P2^AREAPCT` |
+| P3 | `P3^TIME` | `P3^HEIGHT` | `P3^AREA` | `P3^AREAPCT` |
+| P4 | `P4^TIME` | `P4^HEIGHT` | `P4^AREA` | `P4^AREAPCT` |
+| P5 | `P5^TIME` | `P5^HEIGHT` | `P5^AREA` | `P5^AREAPCT` |
+| F | `F^TIME` | `F^HEIGHT` | `F^AREA` | `F^AREAPCT` |
+| E | `E^TIME` | `E^HEIGHT` | `E^AREA` | `E^AREAPCT` |
+| D | `D^TIME` | `D^HEIGHT` | `D^AREA` | `D^AREAPCT` |
+| S | `S^TIME` | `S^HEIGHT` | `S^AREA` | `S^AREAPCT` |
+| C | `C^TIME` | `C^HEIGHT` | `C^AREA` | `C^AREAPCT` |
+| Variant | `Variant^TIME` | `Variant^HEIGHT` | `Variant^AREA` | `Variant^AREAPCT` |
+| Unknown | `Unknown^TIME` | `Unknown^HEIGHT` | `Unknown^AREA` | `Unknown^AREAPCT` |
 
 Plus one totals observation: `TOTAL^AREA` (`counts`).
 
