@@ -18,5 +18,5 @@ dependency-reduced-pom.xml
 *.iml
 .idea/
 
-# Local config — keep production credentials out of the repo
+# Local config - keep production credentials out of the repo
 config.json
