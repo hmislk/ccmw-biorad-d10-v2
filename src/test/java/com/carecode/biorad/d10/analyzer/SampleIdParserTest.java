@@ -3,6 +3,8 @@ package com.carecode.biorad.d10.analyzer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SampleIdParserTest {
 
@@ -36,5 +38,23 @@ class SampleIdParserTest {
     @Test
     void trimsSurroundingWhitespace() {
         assertEquals("591318", SampleIdParser.extractSampleId("  591318  "));
+    }
+
+    @Test
+    void stripsOperatorInitialsGluedDirectlyAfterDigits() {
+        assertEquals("10171633", SampleIdParser.extractSampleId("10171633MH"));
+    }
+
+    @Test
+    void identifiesRackAsNonPatientSample() {
+        assertTrue(SampleIdParser.isNonPatientSample("RACK"));
+        assertTrue(SampleIdParser.isNonPatientSample("rack"));
+        assertTrue(SampleIdParser.isNonPatientSample(" Rack "));
+    }
+
+    @Test
+    void doesNotFlagRealSampleIdsOrControlSamplesAsNonPatient() {
+        assertFalse(SampleIdParser.isNonPatientSample("10171651"));
+        assertFalse(SampleIdParser.isNonPatientSample("A1CTRH"));
     }
 }
