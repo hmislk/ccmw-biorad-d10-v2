@@ -89,6 +89,8 @@ public class AnalyzerClient {
 
     /**
      * Sample IDs present on the daily results page, in the order the analyzer listed them.
+     * The analyzer's Sample ID field holds "ID+separator+PatientName" (see
+     * {@link SampleIdParser}); only the ID part is returned.
      */
     public List<String> extractSampleIds(String htmlContent) {
         if (htmlContent == null || htmlContent.isEmpty()) {
@@ -102,7 +104,7 @@ public class AnalyzerClient {
             for (Element row : rows) {
                 Elements cells = row.select("td");
                 if (cells.size() > 5) {
-                    sampleIds.add(cells.get(3).text());
+                    sampleIds.add(SampleIdParser.extractSampleId(cells.get(3).text()));
                 }
             }
         } catch (Exception e) {
@@ -113,6 +115,9 @@ public class AnalyzerClient {
 
     /**
      * sampleId -> checkbox "value" attribute, needed to build the per-sample PDF report URL.
+     * Keyed by the parsed sample ID (see {@link SampleIdParser}) so it lines up with
+     * {@link #extractSampleIds}; the map value keeps the checkbox's full raw text, which the
+     * report URL needs as-is.
      */
     public Map<String, String> extractCheckboxKeys(String htmlContent) {
         Map<String, String> keys = new LinkedHashMap<>();
@@ -125,8 +130,7 @@ public class AnalyzerClient {
             for (Element cb : checkboxes) {
                 String val = cb.attr("value").trim();
                 if (!val.isEmpty()) {
-                    String sampleId = val.contains(" ") ? val.substring(0, val.indexOf(' ')) : val;
-                    keys.put(sampleId, val);
+                    keys.put(SampleIdParser.extractSampleId(val), val);
                 }
             }
         } catch (Exception e) {
