@@ -67,9 +67,9 @@ sample, the following are sent:
 
 ### 3.1 Primary A1c result
 
-| Coding system | Code | Value | Unit |
-|---|---|---|---|
-| `http://loinc.org` | `4548-4` | HbA1c % (from the report's Concentration box, falling back to the A1c peak's Area%) | `%` (`http://unitsofmeasure.org`) |
+| Coding system | Code | Full code | Value | Unit |
+|---|---|---|---|---|
+| `http://loinc.org` | `4548-4` | `http://loinc.org^4548-4` | HbA1c % (from the report's Concentration box, falling back to the A1c peak's Area%) | `%` (`http://unitsofmeasure.org`) |
 
 ### 3.2 Full peak table - coding system `D10-PEAK` (config: `peakObservationCodingSystem`)
 
