@@ -11,6 +11,11 @@ and peak naming conventions, and reusing that project's proven analyzer/LIMS
 integration approach (HTML result-list scraping + PDF report download, JSON
 POST to `{limsServerBaseUrl}/observation`).
 
+See [DOCUMENTATION.md](DOCUMENTATION.md) for the full reference: architecture,
+every result/observation code sent, the LIMS payload format, sample ID
+parsing, duplicate-send prevention, log layout, config reference, and known
+limitations.
+
 ## What gets sent to the LIS, per sample
 
 1. **Primary A1c result** - LOINC `4548-4`, in `%` (UCUM `http://unitsofmeasure.org`).
