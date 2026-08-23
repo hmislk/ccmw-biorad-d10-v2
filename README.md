@@ -19,17 +19,25 @@ POST to `{limsServerBaseUrl}/observation`).
    `<Peak>^AREAPCT`, coded under `peakObservationCodingSystem` (default
    `D10-PEAK`). Also `TOTAL^AREA`. Set `"sendPeakTable": false` in config to
    skip this and only send the primary result + chromatogram.
-3. **Chromatogram chart** — the chart image embedded in the Patient report
+3. **Report header / run metadata** — Injection date, Injection #, Rack #,
+   Rack position, Method, instrument S/N and Bio-Rad software version, one
+   observation per field, coded under `headerObservationCodingSystem`
+   (default `D10-META`), e.g. `D10-META^INJECTION_DATE`,
+   `D10-META^RACK_POSITION`. Any field the report text doesn't contain is
+   simply omitted rather than blocking the rest. Set `"sendReportHeader":
+   false` in config to skip this.
+4. **Chromatogram chart** — the chart image embedded in the Patient report
    PDF, base64-encoded PNG, sent as one observation coded under
    `chromatogramObservationCodeSystem` / `chromatogramObservationCode`.
 
-The peak table and chromatogram both come from the *same* per-sample PDF
-report the analyzer generates (`?page=pdf&test=HBA1C&nbfile=1&f0=...`) — one
-download, two extractions (image + text). If a given analyzer/software
-version turns out to render that PDF as a single flattened image with no
-text layer, peak-table extraction will silently find nothing (logged as a
-warning) while the chromatogram image and primary A1c result are unaffected;
-that would need OCR to fix, which is not implemented here.
+The peak table, header metadata and chromatogram all come from the *same*
+per-sample PDF report the analyzer generates
+(`?page=pdf&test=HBA1C&nbfile=1&f0=...`) — one download, two extractions
+(image + text). If a given analyzer/software version turns out to render
+that PDF as a single flattened image with no text layer, peak-table and
+header extraction will silently find nothing (logged as a warning) while the
+chromatogram image and primary A1c result are unaffected; that would need
+OCR to fix, which is not implemented here.
 
 ## Duplicate sends
 
