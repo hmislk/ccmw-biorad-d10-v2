@@ -103,7 +103,7 @@ the table below is the full possible vocabulary (17 peaks x 4 components =
 | Variant | `Variant^TIME` | `Variant^HEIGHT` | `Variant^AREA` | `Variant^AREAPCT` |
 | Unknown | `Unknown^TIME` | `Unknown^HEIGHT` | `Unknown^AREA` | `Unknown^AREAPCT` |
 
-Plus one totals observation: `TOTAL^AREA` (`counts`).
+Plus one totals observation: `TOTAL^AREA` (full code `D10-PEAK^TOTAL^AREA`, unit `counts`).
 
 Set `"sendPeakTable": false` to skip this entire section.
 
