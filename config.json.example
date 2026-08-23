@@ -21,6 +21,8 @@
         "chromatogramObservationCodeSystem": "D10-IMG",
         "peakObservationCodingSystem": "D10-PEAK",
         "sendPeakTable": true,
+        "headerObservationCodingSystem": "D10-META",
+        "sendReportHeader": true,
         "processedSamplesDirectory": "state",
         "disableSslVerification": false
     }

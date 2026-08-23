@@ -35,6 +35,9 @@ public class AppConfig {
     public String peakObservationCodingSystem = "D10-PEAK";
     public boolean sendPeakTable = true;
 
+    public String headerObservationCodingSystem = "D10-META";
+    public boolean sendReportHeader = true;
+
     public String processedSamplesDirectory = "state";
 
     public boolean disableSslVerification = false;
@@ -75,6 +78,12 @@ public class AppConfig {
         }
         if (mw.has("sendPeakTable")) {
             cfg.sendPeakTable = mw.getBoolean("sendPeakTable");
+        }
+        if (mw.has("headerObservationCodingSystem")) {
+            cfg.headerObservationCodingSystem = mw.getString("headerObservationCodingSystem");
+        }
+        if (mw.has("sendReportHeader")) {
+            cfg.sendReportHeader = mw.getBoolean("sendReportHeader");
         }
         if (mw.has("processedSamplesDirectory")) {
             cfg.processedSamplesDirectory = mw.getString("processedSamplesDirectory");
