@@ -25,6 +25,11 @@ import java.util.Set;
  * Drives one polling cycle: fetch the day's sample list from the analyzer,
  * download and parse each new sample's Patient report PDF, and send the A1c
  * result, the full peak table, and the chromatogram chart to the LIS.
+ *
+ * A sample is checked against (and, once sent, recorded in) the global
+ * sent-samples registry, not a per-date one -- once a sample's results have
+ * gone to the LIS they are never sent again, no matter how many more times
+ * that sample's date range gets polled.
  */
 public class SampleProcessor {
 
@@ -61,22 +66,22 @@ public class SampleProcessor {
             return;
         }
         Map<String, String> checkboxKeys = analyzerClient.extractCheckboxKeys(html);
-        Set<String> processed = processedSamplesStore.loadProcessed(date);
+        Set<String> alreadySent = processedSamplesStore.loadSentSampleIds();
 
         Set<String> seenThisRun = new LinkedHashSet<>();
         for (String sampleId : sampleIds) {
             if (!seenThisRun.add(sampleId)) {
                 continue;
             }
-            if (processed.contains(sampleId)) {
-                log.debug("Sample {} already processed for {}, skipping", sampleId, date);
+            if (alreadySent.contains(sampleId)) {
+                log.debug("Sample {} already sent to the LIS, skipping", sampleId);
                 continue;
             }
-            processSample(date, sampleId, checkboxKeys);
+            processSample(sampleId, checkboxKeys);
         }
     }
 
-    private void processSample(LocalDate date, String sampleId, Map<String, String> checkboxKeys) {
+    private void processSample(String sampleId, Map<String, String> checkboxKeys) {
         String checkboxKey = checkboxKeys.get(sampleId);
         if (checkboxKey == null) {
             log.warn("No report key found for sample {}, cannot fetch patient report", sampleId);
@@ -102,8 +107,8 @@ public class SampleProcessor {
         sendChromatogram(sampleId, data, issuedDate);
 
         if (primarySent) {
-            processedSamplesStore.markProcessed(date, sampleId);
-            log.info("Sample {} processed successfully", sampleId);
+            processedSamplesStore.markSent(sampleId);
+            log.info("Sample {} sent to the LIS successfully", sampleId);
         } else {
             log.warn("Sample {} will be retried on next poll (primary A1c result was not accepted)", sampleId);
         }
