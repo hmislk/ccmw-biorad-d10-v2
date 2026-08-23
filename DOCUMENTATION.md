@@ -109,15 +109,15 @@ Set `"sendPeakTable": false` to skip this entire section.
 
 ### 3.3 Report header / run metadata - coding system `D10-META` (config: `headerObservationCodingSystem`)
 
-| Code | Source field |
-|---|---|
-| `INJECTION_DATE` | Injection date |
-| `INJECTION_NUMBER` | Injection # |
-| `RACK_NUMBER` | Rack # |
-| `RACK_POSITION` | Rack position |
-| `METHOD` | Method |
-| `SERIAL_NUMBER` | Instrument S/N |
-| `SOFTWARE_VERSION` | Bio-Rad software version |
+| Code | Full code | Source field |
+|---|---|---|
+| `INJECTION_DATE` | `D10-META^INJECTION_DATE` | Injection date |
+| `INJECTION_NUMBER` | `D10-META^INJECTION_NUMBER` | Injection # |
+| `RACK_NUMBER` | `D10-META^RACK_NUMBER` | Rack # |
+| `RACK_POSITION` | `D10-META^RACK_POSITION` | Rack position |
+| `METHOD` | `D10-META^METHOD` | Method |
+| `SERIAL_NUMBER` | `D10-META^SERIAL_NUMBER` | Instrument S/N |
+| `SOFTWARE_VERSION` | `D10-META^SOFTWARE_VERSION` | Bio-Rad software version |
 
 Any field not found in the report text is simply omitted (not sent as
 blank). Set `"sendReportHeader": false` to skip this entire section.
