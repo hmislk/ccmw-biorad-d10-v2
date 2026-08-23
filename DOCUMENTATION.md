@@ -143,7 +143,7 @@ above:
 
 | JSON field | Source |
 |---|---|
-| `sampleId` | parsed sample ID (section 5) |
+| `sampleId` | parsed sample ID (section 5) - the specimen identifier itself, not a coded observation, so it has no coding system / code pair of its own |
 | `observationValue` | the value described in section 3 |
 | `observationValueCodingSystem` / `observationValueCode` | as per section 3 |
 | `observationUnitCodingSystem` / `observationUnitCode` | as per section 3 (empty for header fields and the chromatogram) |
