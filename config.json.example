@@ -1,0 +1,27 @@
+{
+    "middlewareSettings": {
+        "analyzerDetails": {
+            "analyzerName": "BioRadD10",
+            "serialNumber": "YOUR_SERIAL",
+            "analyzerId": "YOUR_ANALYZER_ID",
+            "departmentAnalyzerId": "YOUR_DEPT_ANALYZER_ID",
+            "analyzerBaseURL": "http://ANALYZER_IP/Dia/DiaWeb.cgi/",
+            "departmentId": "YOUR_DEPT_ID"
+        },
+        "limsSettings": {
+            "limsServerBaseUrl": "https://YOUR_HIMS_HOST/api/limsmw",
+            "username": "YOUR_USERNAME",
+            "password": "YOUR_PASSWORD"
+        },
+        "communication": {
+            "queryFrequencyInMinutes": 1,
+            "queryForYesterdayResults": true
+        },
+        "chromatogramObservationCode": "D10-CHROMATOGRAM",
+        "chromatogramObservationCodeSystem": "D10-IMG",
+        "peakObservationCodingSystem": "D10-PEAK",
+        "sendPeakTable": true,
+        "processedSamplesDirectory": "state",
+        "disableSslVerification": false
+    }
+}
