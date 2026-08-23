@@ -88,7 +88,12 @@ details, and run:
 java -jar target/BioradD10MW-1.0.jar config.json
 ```
 
-(the config path defaults to `config.json` in the working directory if omitted).
+The config file doesn't have to live in the project folder - pass any
+absolute path as the argument (e.g.
+`java -jar target/BioradD10MW-1.0.jar C:\biorad\config.json`). Resolution
+order: 1) command-line argument, 2) `-Dconfig.file=...` system property,
+3) `D10_CONFIG_FILE` environment variable, 4) `config.json` in the working
+directory.
 
 ## Build
 

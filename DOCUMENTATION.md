@@ -225,6 +225,16 @@ mvn test           # tests only
 java -jar target/BioradD10MW-1.0.jar config.json    # config path defaults to ./config.json
 ```
 
+The config file is not required to live in the project folder. `D10Middleware.resolveConfigPath`
+resolves it in this order:
+
+1. Command-line argument - any path, relative or absolute
+   (`java -jar target/BioradD10MW-1.0.jar C:\biorad\config.json`)
+2. `-Dconfig.file=...` system property
+   (`java -Dconfig.file=C:\biorad\config.json -jar target/BioradD10MW-1.0.jar`)
+3. `D10_CONFIG_FILE` environment variable
+4. `config.json` in the current working directory (default)
+
 Java 11, Maven. Key dependencies: jsoup (HTML scraping), org.json (JSON
 payloads), pdfbox (PDF image/text extraction), slf4j + logback (logging),
 junit-jupiter (tests), maven-shade-plugin (fat jar).

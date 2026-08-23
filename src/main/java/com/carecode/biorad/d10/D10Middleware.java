@@ -25,7 +25,8 @@ public class D10Middleware {
     public static void main(String[] args) {
         log.info("D-10 middleware starting");
 
-        String configPath = args.length > 0 ? args[0] : "config.json";
+        String configPath = resolveConfigPath(args);
+        log.info("Using config file: {}", configPath);
 
         AppConfig config;
         try {
@@ -58,6 +59,28 @@ public class D10Middleware {
         }, periodMs, periodMs);
 
         log.info("D-10 middleware running, polling every {} minute(s)", config.queryFrequencyInMinutes);
+    }
+
+    /**
+     * The config file doesn't have to live in the project folder / working
+     * directory: it can be anywhere on disk, resolved in this order --
+     * 1) command-line argument, 2) -Dconfig.file=... system property,
+     * 3) D10_CONFIG_FILE environment variable, 4) "config.json" in the
+     * working directory (unchanged default behaviour).
+     */
+    private static String resolveConfigPath(String[] args) {
+        if (args.length > 0 && !args[0].isEmpty()) {
+            return args[0];
+        }
+        String systemProperty = System.getProperty("config.file");
+        if (systemProperty != null && !systemProperty.isEmpty()) {
+            return systemProperty;
+        }
+        String envVar = System.getenv("D10_CONFIG_FILE");
+        if (envVar != null && !envVar.isEmpty()) {
+            return envVar;
+        }
+        return "config.json";
     }
 
     private static void runPollCycle(SampleProcessor processor, AppConfig config) {
