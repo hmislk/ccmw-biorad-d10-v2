@@ -31,6 +31,28 @@ text layer, peak-table extraction will silently find nothing (logged as a
 warning) while the chromatogram image and primary A1c result are unaffected;
 that would need OCR to fix, which is not implemented here.
 
+## Duplicate sends
+
+Once a sample's results have been accepted by the LIS, that sample is never
+sent again — this is tracked in `state/sent_samples.txt`, a flat,
+ever-growing registry of every sample ID ever sent (see
+`ProcessedSamplesStore`). This is deliberately *not* scoped per day: a
+sample that shows up again in a later poll (e.g. because it also falls in
+the "yesterday" query window near a day boundary) is still skipped. Only a
+sample whose primary A1c result failed to send is retried on the next poll.
+
+## Sample ID vs. patient name
+
+MLTs enter the Sample ID at the analyzer, and sometimes add the patient's
+name alongside it using whatever separator is at hand — underscore, hyphen,
+or space (e.g. `1258968_Damith`, `1458962-Damith`, `125486 Damith`), or, as
+seen on real printed reports, `10170973-DAYANI`. Other times only the bare
+sample ID is entered (e.g. `591318`), with no name at all — both forms are
+supported. `SampleIdParser` extracts just the ID (the text before the first
+separator) wherever a sample ID is read from the analyzer, so the patient
+name is never sent to the LIS as part of the specimen identifier, never
+used as a dedup key, and never appears in any log.
+
 ## Logs
 
 Configured in `src/main/resources/logback.xml`, one concern per file:
