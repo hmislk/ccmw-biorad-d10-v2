@@ -108,3 +108,7 @@ Produces a shaded `target/BioradD10MW-1.0.jar` with all dependencies bundled.
 `PeakTableTextParserTest` checks the peak-table parser against text
 transcribed from an actual printed Patient report, including the tricky
 case of `LA1c/CHb-1` not being mistaken for a second `A1c` row.
+
+## Licence
+
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE).
